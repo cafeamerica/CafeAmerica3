@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelEntradaCafeDia" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dcc88566-145b-453d-8097-c12e6c37e09a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dt_ini" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dt_fim" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT g.nosso_num_guia as nosso_num, g.num_guia as num_guia, e.nome_emp as nome_emp, ve.dt_ent as dt, ve.doc_viagem_ent as doc, ve.tipo_cafe_ent as tipo_cafe, ve.qtd_sacas_ent as qtd_sacas, ve.peso_ent as peso, ve.num_nota as nfe
+FROM viagem_ent ve, guia_viagem_ent gve, guias g, emp_guia eg, empresas e
+WHERE ve.dt_ent BETWEEN $P{dt_ini} AND $P{dt_fim} AND
+      ve.id_viagem_ent_guia = gve.id_guia_viagem_ent AND
+      g.id_guia = gve.id_guia AND
+      g.id_guia = eg.id_guia AND
+      eg.id_emp = e.id_emp
+ORDER BY dt]]>
+	</queryString>
+	<field name="nosso_num" class="java.lang.String"/>
+	<field name="num_guia" class="java.lang.String"/>
+	<field name="nome_emp" class="java.lang.String"/>
+	<field name="dt" class="java.sql.Date"/>
+	<field name="doc" class="java.lang.String"/>
+	<field name="tipo_cafe" class="java.lang.String"/>
+	<field name="qtd_sacas" class="java.math.BigDecimal"/>
+	<field name="peso" class="java.math.BigDecimal"/>
+	<field name="nfe" class="java.lang.String"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement uuid="21fd4d05-e7e1-4ffa-b9d1-39c30ba2b7db" mode="Opaque" x="-20" y="-20" width="595" height="92" forecolor="#FFFFFF" backcolor="#FFFFFF"/>
+				<staticText>
+					<reportElement uuid="8d042a93-5cde-4979-bb68-554872f8a7ae" x="20" y="59" width="284" height="33" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Entrada de café por período - REAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="05c24a66-a399-46f4-8a6d-cb0794819086" x="194" y="20" width="255" height="39"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="22" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CAFÉ AMÉRICA LTDA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="69738c26-8828-496f-833b-c446e0abb6f9" x="465" y="39" width="20" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[ De:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="3a4baf2a-bd3a-4393-968b-5bd2cef0fd77" x="465" y="59" width="20" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Até:]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="47093011-e82c-44f4-9728-b7141dbb9db3" x="485" y="59" width="100" height="20"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$P{dt_fim}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="4429faa2-7aca-4cb8-8ede-e745d544b57f" x="485" y="39" width="100" height="20"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$P{dt_ini}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement uuid="9c28aa08-1a45-4556-8aff-3a4ee4067b2e" x="-20" y="20" width="595" height="1" forecolor="#666666"/>
+			</line>
+			<staticText>
+				<reportElement uuid="0ad38f43-48df-4455-a6a5-8d0c5d936878" mode="Opaque" x="71" y="0" width="59" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nosso num]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="17587d51-3d1b-40b4-90e3-25f1412a0774" mode="Opaque" x="0" y="0" width="71" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dt ent.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="89fc92c5-f40a-44a3-a589-895ab528f663" mode="Opaque" x="372" y="0" width="57" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo café]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2bb983c3-0e83-43a4-9258-21d175478fec" x="130" y="0" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bde09516-7f6a-48c1-823e-ce76c7b6d334" x="261" y="0" width="64" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="154e2cbc-809d-4b66-ad97-8efdc6103ac1" x="325" y="0" width="47" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NFe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="519cda2c-7832-456a-a193-30da0641761b" x="205" y="0" width="56" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Guia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="daa6740f-0eaf-4db8-8678-08ef045f799e" mode="Opaque" x="429" y="0" width="55" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Peso(KG)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2f829163-03ba-4192-92f2-8fb38d624b14" x="487" y="0" width="68" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qtd sacas]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement uuid="0c12c652-6844-44a2-bf85-7bcfc1fcbdcb" positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="5065d5ac-a3dc-4435-b7a4-4d6746ba9262" x="71" y="0" width="59" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nosso_num}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="044070a5-f5f3-4054-90bb-b6b97f4dde78" x="0" y="0" width="71" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9038f5f6-ba54-4e31-97f7-cec732779435" x="372" y="0" width="57" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipo_cafe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="be8c2f6f-a8d0-4f73-adcd-1de4efc0e8c6" x="325" y="0" width="47" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nfe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b91edaea-620e-439e-9c25-a8bf19a0ab66" x="130" y="0" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nome_emp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8cf832fd-f9ad-448b-8fe4-269d859a322d" x="261" y="0" width="64" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{doc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="39be721c-6468-4f9f-bdea-982cc2a12b61" x="205" y="0" width="56" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{num_guia}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="ee89b58e-c64e-4e7f-98a5-65e98477e3e2" x="429" y="0" width="58" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{peso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="16158c68-63c8-42eb-9581-8a9598eb5dfc" x="487" y="0" width="68" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{qtd_sacas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement uuid="7c103fa0-c34f-4137-83a9-ac2e74f0c496" mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="3377bda4-b7ac-42ae-af57-513a8c431174" mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#FFFFFF"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE, dd/MM/yyyy">
+				<reportElement uuid="824343e7-8665-4b25-984b-7ff9225a6252" x="0" y="4" width="130" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

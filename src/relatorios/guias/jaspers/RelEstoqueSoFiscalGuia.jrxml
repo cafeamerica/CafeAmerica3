@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelEstoqueSoFiscalGuia" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="003cede7-e109-4b17-885c-30a47d2065e4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_guia" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT ve.dt_ent as dt, g.nosso_num_guia as nosso_num, ne.num_nota as num_nota, 'ENTRADA' as tipo, ve.doc_viagem_ent as documento, g.num_guia as guia, ve.qtd_sacas_ent as real, COALESCE(ne.qtd_sacas_nfe_ent,0) as qtd_sacas, g.num_guia as num_guia
+ FROM viagem_ent ve, nfe_ent ne, guias g
+ WHERE g.id_guia = ne.id_guia AND
+       ve.id_viagem_ent_guia = ne.id_nfe_ent AND
+      ne.num_nota not like '%PENDENTE%' and
+       g.id_guia = $P{id_guia}
+       UNION ALL
+  SELECT vs.dt_sai as dt, g.nosso_num_guia as nosso_num, ns.num_nota as num_nota, 'SAIDA' as tipo, vs.doc_viagem_sai as documento, g.num_guia as guia,vs.qtd_sacas_sai as real, COALESCE(-ns.qtd_sacas_nfe_sai,0) as qtd_sacas, g.num_guia as num_guia
+ FROM viagem_sai vs, nfe_sai ns, guias g
+ WHERE g.id_guia = ns.id_guia AND
+       vs.id_viagem_sai_guia = ns.id_nfe_sai  AND
+ ns.num_nota not like '%PENDENTE%' and
+       g.id_guia = $P{id_guia}
+ORDER BY 1]]>
+	</queryString>
+	<field name="dt" class="java.sql.Date"/>
+	<field name="nosso_num" class="java.lang.String"/>
+	<field name="num_nota" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="documento" class="java.lang.String"/>
+	<field name="guia" class="java.lang.String"/>
+	<field name="real" class="java.math.BigDecimal"/>
+	<field name="qtd_sacas" class="java.math.BigDecimal"/>
+	<field name="num_guia" class="java.lang.String"/>
+	<variable name="total" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{qtd_sacas}]]></variableExpression>
+	</variable>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement uuid="42007e4f-44b8-4324-bdd2-7c9da335d331" mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#FFFFFF"/>
+				<staticText>
+					<reportElement uuid="a2fd02a6-e889-4c9c-8f0e-88acb89ee792" x="187" y="10" width="196" height="39" forecolor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="18" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CAFÉ AMÉRICA LTDA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="af7afef6-901d-4384-86fb-7f5980fdd611" x="10" y="49" width="310" height="43" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Estoque diário por período - FISCAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6c0cdd34-3463-46d4-b7c0-78d6db8881e7" x="415" y="29" width="44" height="20"/>
+					<textElement/>
+					<text><![CDATA[     Guia:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="08b7dcb0-6136-4463-84ab-68e1505e9a0a" x="415" y="49" width="44" height="20"/>
+					<textElement/>
+					<text><![CDATA[Nosso nº:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="178ea8e8-377b-4a19-9aed-28523d35a81d" x="459" y="49" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{nosso_num}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="c7716e0b-f70d-46c3-91c6-53433bf3c79e" x="459" y="29" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{num_guia}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement uuid="19c5e155-bd2d-40a1-832d-60f4cbc205d1" x="-20" y="20" width="595" height="1" forecolor="#666666"/>
+			</line>
+			<staticText>
+				<reportElement uuid="311bfb19-7873-4363-8263-ae3cbd002618" mode="Opaque" x="0" y="0" width="79" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="159051d8-0154-429b-a0ea-c718f3f1f4b0" mode="Opaque" x="100" y="0" width="79" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NFe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="85f145bf-80aa-45c1-a0f2-bb5dde724044" mode="Opaque" x="199" y="0" width="79" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b65c5279-17de-47a4-bc3f-7447b5bdcc73" mode="Opaque" x="284" y="0" width="95" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="72e65298-21db-4888-ba6a-342817caf749" mode="Opaque" x="395" y="0" width="79" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sacas(UN)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ace48efc-f411-4cc2-bd16-c277013f8626" mode="Opaque" x="474" y="0" width="79" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo(UN)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement uuid="1cbe5422-39ff-4608-acaa-31a6072e020e" positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1"/>
+			</line>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement uuid="9dc743ca-c64e-4811-9fc6-2f13dceb838e" x="0" y="0" width="79" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="5cd7b042-3280-4824-8211-bf6649b00369" x="284" y="0" width="95" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="f25d555c-a547-455d-850a-9539ce45c260" x="100" y="0" width="79" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{num_nota}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="68d659b8-fc7f-45b3-9fa5-527cb52f9796" x="199" y="0" width="79" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00">
+				<reportElement uuid="1a5f1ee6-87bc-434d-bf90-41e826678db1" x="395" y="0" width="79" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qtd_sacas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="739a39bb-f680-4002-be38-cd0b5afaf482" x="475" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement uuid="f4a90015-c50c-4f7c-a637-7e7571ddf199" mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="516a698b-73fc-4bab-888b-7f8b5b49ca0c" mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#FFFFFF"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE, dd/MM/yyyy">
+				<reportElement uuid="bbdd8ec9-4949-4b11-9bcb-f578d0e596b3" x="0" y="4" width="199" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
